@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-j2x4$d*v_w)3)dwh^9d7&gr@wz29l4q2i=48u9bff9!2c^lbn^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-CSP_FRAME_SRC = []
+ALLOWED_HOSTS = ['*']
+CSP_FRAME_ANCESTORS = ['replit.com']
 
 
 # Application definition

@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-j2x4$d*v_w)3)dwh^9d7&gr@wz29l4q2i=48u9bff9!2c^lbn^
 DEBUG = True
 
 ALLOWED_HOSTS = []
+CSP_FRAME_SRC = []
 
 
 # Application definition
@@ -47,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'todoproject.urls'

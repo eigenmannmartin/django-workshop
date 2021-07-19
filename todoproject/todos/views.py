@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.forms import modelformset_factory
 from todos.models import Todo, Collection
-
+from rest_framework import viewsets
+from rest_framework import permissions
+from todos.serializers import CollectionSerializer, TodoSerializer
 
 def collection(request, id):
     collection = get_object_or_404(Collection, pk=id)
@@ -44,13 +46,17 @@ def index(request):
                                        can_delete_extra=False,
                                        can_order=False,)
 
-                                      
-    queryset = Collection.objects.all()
+    if request.user.is_authenticated:                                  
+      queryset = Collection.objects.filter(owner=request.user)
+    else:
+      queryset = Collection.objects.none()
 
     if request.method == 'POST':
         formset = CollectionFormSet(request.POST, request.FILES, queryset=queryset)
         if formset.is_valid():
-            formset.save()
+            for new_collection in formset.save(commit=False):
+                new_collection.owner = request.user
+                new_collection.save()
             for obj in formset.deleted_objects:
               if obj.pk:
                 obj.delete()
@@ -61,3 +67,32 @@ def index(request):
 
 
     return render(request, 'index.html', {"formset": formset})
+
+
+
+
+class CollectionViewset(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Collection.objects.all()
+    serializer_class = CollectionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+      return self.queryset.filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+      serializer.save(owner=self.request.user)
+
+
+class TodoViewset(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+      return self.queryset.filter(collection__owner=self.request.user)

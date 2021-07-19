@@ -8,7 +8,9 @@ authors = ["eigenmannmartin <<>>"]
 python = "^3.8"
 Django = "^3.2.5"
 django-csp = "^3.7"
-django-bootstrap-v5 = "^1.0.4"
+django-rest-framework = "^0.1.0"
+django-filter = "^2.4.0"
+cheminventory = "^0.2.3"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ collection.name }}<h1>
+
+  <form method="post">
+      {% csrf_token %}
+      {{ formset.management_form }}
+      {% for form in formset %}
+      <div class="mt-5">
+          {{ form.errors }}
+          {{ form.id }}
+
+          {% if not form.instance.pk %}
+            <h2>
+              New Item
+            </h2>
+          {% endif %}
+          <div class="mb-3">
+            <label class="form-label">Item Description</label>
+            {{ form.description }}
+          </div>
+          
+          {% if form.instance.pk %}
+            <div class="mb-3">
+              <label class="form-label">Done</label>
+              {{ form.done }}
+            </div>
+            <p class="text-muted">
+            Created: <span>{{ form.instance.created }}</span> <br />
+            Updated: <span>{{ form.instance.modified }}</span>
+            </p>
+          {% endif %}
+          {% if formset.can_delete and form.instance.pk %}
+              <li>Delete: {{ form.DELETE }}</li>
+          {% endif %}
+      </div>
+      {% endfor %}
+      <input type="submit" class="btn btn-primary" value="Speichern">
+  </form>
+{% endblock content %}

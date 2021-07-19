@@ -8,6 +8,7 @@ authors = ["eigenmannmartin <<>>"]
 python = "^3.8"
 Django = "^3.2.5"
 django-csp = "^3.7"
+django-bootstrap-v5 = "^1.0.4"
 
 [tool.poetry.dev-dependencies]
 

@@ -25,8 +25,11 @@ SECRET_KEY = 'django-insecure-j2x4$d*v_w)3)dwh^9d7&gr@wz29l4q2i=48u9bff9!2c^lbn^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+APPEND_SLASH = True
 ALLOWED_HOSTS = ['*']
-CSP_FRAME_ANCESTORS = ['replit.com']
+X_FRAME_OPTIONS = '*'
+CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_COOKIE_SAMESITE = None
 
 
 # Application definition
@@ -38,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap5',
+    'todos.apps.TodosConfig',
 ]
 
 MIDDLEWARE = [
@@ -48,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'todoproject.urls'

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>My Todos!<h1>
+
+  <form method="post">
+      {% csrf_token %}
+      {{ formset.management_form }}
+      {% for form in formset %}
+      <div class="mt-5">
+          {{ form.errors }}
+          {{ form.id }}
+
+          {% if not form.instance.pk %}
+            <h2>
+              New List
+            </h2>
+          {% endif %}
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">List Name</label>
+            {{ form.name }}
+            <div id="emailHelp" class="form-text">Give your todo list a nice name</div>
+          </div>
+          {% if form.instance.pk %}
+            <p class="text-muted">
+            Created: <span>{{ form.instance.created }}</span> <br />
+            Updated: <span>{{ form.instance.modified }}</span>
+            </p>
+          {% endif %}
+          {% if formset.can_delete and form.instance.pk %}
+              <li>Delete: {{ form.DELETE }}</li>
+          {% endif %}
+          {% if form.instance.pk %}
+            <a href="{% url "collection" form.instance.pk %}">Details</a> 
+          {% endif %}
+      </div>
+      {% endfor %}
+      <input type="submit" class="btn btn-primary" value="Speichern">
+  </form>
+{% endblock content %}
